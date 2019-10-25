@@ -13,5 +13,6 @@ read_globals = {
 	"vector", "ItemStack",
 	"dump", "VoxelArea",
 
-	"unifieddyes"
+	"unifieddyes", "mesecon", "default",
+	"scifi_nodes"
 }
