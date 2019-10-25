@@ -6,9 +6,7 @@ local function starts_with(str, start)
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-	local parts = formname:split(";")
-	local name = parts[1]
-	if name ~= FORMNAME then
+	if formname ~= FORMNAME then
 		return
 	end
 
@@ -34,13 +32,13 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 
-access_cards.name_form = function(pos, player)
+access_cards.name_form = function(player)
 	local formspec = "size[8,1;]" ..
 		"field[0,0.5;6,1;name;Name;]" ..
 		"button_exit[6,0.1;2,1;save;Save]"
 
 	minetest.show_formspec(player:get_player_name(),
-		FORMNAME .. ";" .. minetest.pos_to_string(pos),
+		FORMNAME,
 		formspec
 	)
 end
