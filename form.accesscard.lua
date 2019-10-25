@@ -18,12 +18,6 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	end
 
 	local meta = stack:get_meta()
-
-	if meta:get_int("configured") == 1 then
-		-- already configured
-		return
-	end
-
 	meta:set_int("configured", 1)
 	meta:set_string("name", fields.name)
 	meta:set_string("description", "Access card: '" .. fields.name .. "'")
@@ -33,6 +27,15 @@ end)
 
 
 access_cards.name_form = function(player)
+
+  local stack = player:get_wielded_item()
+  local meta = stack:get_meta()
+
+  if meta:get_int("configured") == 1 then
+		-- already configured
+		return
+	end
+
 	local formspec = "size[8,1;]" ..
 		"field[0,0.5;6,1;name;Name;]" ..
 		"button_exit[6,0.1;2,1;save;Save]"
