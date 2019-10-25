@@ -1,4 +1,4 @@
-local MP = minetest.get_modpath("missions")
+local MP = minetest.get_modpath("access_cards")
 
 access_cards = {}
 
