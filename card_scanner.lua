@@ -44,6 +44,11 @@ local function activate_palm_scanner(pos, node, player)
 			minetest.chat_send_player(name, "Access granted !")
 			mesecon.receptor_on(pos, scifi_nodes.get_switch_rules(node.param2))
 
+			player = minetest.get_player_by_name(name)
+			if player then
+				player:set_wielded_item(ItemStack())
+			end
+
       -- reset state
       minetest.after(2, function()
         node.name = "access_cards:palm_scanner_off"
