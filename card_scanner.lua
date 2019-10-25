@@ -1,21 +1,34 @@
 -- stolen and adapted from https://github.com/D00Med/scifi_nodes/blob/master/palm_scanner.lua
 
+local function starts_with(str, start)
+   return str:sub(1, #start) == start
+end
 
 local function activate_palm_scanner(pos, node, player)
 	local name = player and player:get_player_name()
 	name = name or ""
 
-  local wield_item = player:get_wielded_item()
-  local wield_str = wield_item:to_string()
+  local stack = player:get_wielded_item()
+	local key_name = nil
+
+	if starts_with(stack:get_name(), "access_cards") then
+		-- an access card
+		local meta = stack:get_meta()
+		if meta:get_int("configured") then
+			key_name = meta:get_string("name")
+		end
+	end
 
   local meta = minetest.get_meta(pos)
   if meta:get_int("configured") ~= 1 then
 
-    if wield_str then
+    if key_name then
       minetest.sound_play("scifi_nodes_palm_scanner", {max_hear_distance = 8, pos = pos, gain = 1.0})
-      meta:set_string("key", wield_str)
+      meta:set_string("key", key_name)
       meta:set_int("configured", 1)
-      minetest.chat_send_player(name, "Scanner-key set to '" .. wield_str .. "'")
+      minetest.chat_send_player(name, "Scanner-key set to '" .. key_name .. "'")
+		else
+			minetest.chat_send_player(name, "Please provide a configured access card")
     end
     return
   end
@@ -23,7 +36,7 @@ local function activate_palm_scanner(pos, node, player)
 	-- check key
   local key = meta:get_string("key")
 
-	if key ~= wield_str then
+	if key ~= key_name then
     node.name = "access_cards:palm_scanner_off"
     minetest.swap_node(pos, node)
 
@@ -37,7 +50,13 @@ local function activate_palm_scanner(pos, node, player)
 		minetest.chat_send_player(name, "Access granted !")
 		mesecon.receptor_on(pos, scifi_nodes.get_switch_rules(node.param2))
 
-		player:set_wielded_item(nil)
+		minetest.after(0, function()
+			-- uhm, right, why is this needed.... :X
+			player = minetest.get_player_by_name(name)
+			if player then
+				player:set_wielded_item(ItemStack(nil))
+			end
+		end)
 
     -- reset state
     minetest.after(2, function()
