@@ -12,7 +12,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 
 	local stack = player:get_wielded_item()
 
-	if not starts_with(stack:get_name(), "access_cards") then
+	if not starts_with(stack:get_name(), "access_cards") or not fields.name then
 		-- not an access card
 		return
 	end

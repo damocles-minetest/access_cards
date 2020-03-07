@@ -48,13 +48,13 @@ local function activate_palm_scanner(pos, node, player)
 		minetest.swap_node(pos, node)
 
 		minetest.chat_send_player(name, "Access granted !")
-		mesecon.receptor_on(pos, scifi_nodes.get_switch_rules(node.param2))
+		mesecon.receptor_on(pos)
 
     -- reset state
     minetest.after(2, function()
       node.name = "access_cards:palm_scanner_off"
       minetest.swap_node(pos, node)
-      mesecon.receptor_off(pos, scifi_nodes.get_switch_rules(node.param2))
+      mesecon.receptor_off(pos)
     end)
 
 	end
