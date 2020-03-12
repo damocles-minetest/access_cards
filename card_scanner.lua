@@ -23,7 +23,7 @@ local function activate_palm_scanner(pos, node, player)
   if meta:get_int("configured") ~= 1 then
 
     if key_name then
-      minetest.sound_play("scifi_nodes_palm_scanner", {max_hear_distance = 8, pos = pos, gain = 1.0})
+      minetest.sound_play("access_cards_scanning", {max_hear_distance = 8, pos = pos, gain = 1.0})
       meta:set_string("key", key_name)
       meta:set_int("configured", 1)
       minetest.chat_send_player(name, "Scanner-key set to '" .. key_name .. "'")
@@ -41,13 +41,14 @@ local function activate_palm_scanner(pos, node, player)
     minetest.swap_node(pos, node)
 
 		minetest.chat_send_player(name, "Access denied !")
-		minetest.sound_play("scifi_nodes_scanner_refused", {max_hear_distance = 8, pos = pos, gain = 1.0})
+		minetest.sound_play("access_cards_refused", {max_hear_distance = 8, pos = pos, gain = 1.0})
 
 	else
     node.name = "access_cards:palm_scanner_on"
 		minetest.swap_node(pos, node)
 
 		minetest.chat_send_player(name, "Access granted !")
+    minetest.sound_play("access_cards_granted", {max_hear_distance = 8, pos = pos, gain = 1.0})
 		mesecon.receptor_on(pos)
 
     -- reset state
@@ -62,9 +63,9 @@ end
 
 minetest.register_node("access_cards:palm_scanner_off", {
 	description = "Palm scanner",
-	tiles = {"scifi_nodes_palm_scanner_off.png",},
-	inventory_image = "scifi_nodes_palm_scanner_off.png",
-	wield_image = "scifi_nodes_palm_scanner_on.png",
+	tiles = {"access_cards_scanner_off.png",},
+	inventory_image = "access_cards_scanner_off.png",
+	wield_image = "access_cards_scanner_on.png",
 	drawtype = "signlike",
 	sunlight_propagates = true,
 	buildable_to = false,
@@ -85,7 +86,7 @@ minetest.register_node("access_cards:palm_scanner_off", {
 minetest.register_node("access_cards:palm_scanner_checking", {
 	description = "Palm scanner",
 	tiles = {{
-		name = "scifi_nodes_palm_scanner_checking.png",
+		name = "access_cards_scanner_checking.png",
 		animation = {type = "vertical_frames",aspect_w = 16,aspect_h = 16,length = 1.5}
 	}},
 	drawtype = "signlike",
@@ -104,9 +105,9 @@ minetest.register_node("access_cards:palm_scanner_on", {
 	description = "Palm scanner",
 	sunlight_propagates = true,
 	buildable_to = false,
-	tiles = {"scifi_nodes_palm_scanner_on.png",},
-	inventory_image = "scifi_nodes_palm_scanner_on.png",
-	wield_image = "scifi_nodes_palm_scanner_on.png",
+	tiles = {"access_cards_scanner_on.png",},
+	inventory_image = "access_cards_scanner_on.png",
+	wield_image = "access_cards_scanner_on.png",
 	drawtype = "signlike",
 	node_box = {type = "wallmounted",},
 	selection_box = {type = "wallmounted",},

@@ -5,7 +5,7 @@ access_cards = {}
 dofile(MP.."/form.accesscard.lua")
 dofile(MP.."/cards.lua")
 
-if minetest.get_modpath("scifi_nodes") and minetest.get_modpath("mesecons") then
+if minetest.get_modpath("mesecons") then
   dofile(MP.."/card_scanner.lua")
 end
 
