@@ -83,24 +83,6 @@ minetest.register_node("access_cards:palm_scanner_off", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_node("access_cards:palm_scanner_checking", {
-	description = "Palm scanner",
-	tiles = {{
-		name = "access_cards_scanner_checking.png",
-		animation = {type = "vertical_frames",aspect_w = 16,aspect_h = 16,length = 1.5}
-	}},
-	drawtype = "signlike",
-	sunlight_propagates = true,
-	buildable_to = false,
-	node_box = {type = "wallmounted",},
-	selection_box = {type = "wallmounted",},
-	paramtype = "light",
-	paramtype2 = "wallmounted",
-	groups = {cracky=1, oddly_breakable_by_hand=1, not_in_creative_inventory=1, mesecon_needs_receiver = 1},
-	drop = "access_cards:palm_scanner_off",
-	sounds = default.node_sound_glass_defaults()
-})
-
 minetest.register_node("access_cards:palm_scanner_on", {
 	description = "Palm scanner",
 	sunlight_propagates = true,
