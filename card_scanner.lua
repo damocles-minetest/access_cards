@@ -1,5 +1,27 @@
 -- stolen and adapted from https://github.com/D00Med/scifi_nodes/blob/master/palm_scanner.lua
 
+local get_switch_rules = function(param2)
+
+	-- param2 = 2
+	local rules = {
+		{x=1, y=-1, z=-1},
+		{x=1, y=-1, z=1},
+		{x=0, y=-1, z=-1},
+		{x=0, y=-1, z=1},
+	}
+
+-- Left and right when looking to +y ?
+	if param2 == 3 then
+		rules = mesecon.rotate_rules_right(mesecon.rotate_rules_right (rules))
+	elseif param2 == 4 then
+		rules = mesecon.rotate_rules_right(rules)
+	elseif param2 == 5 then
+		rules = mesecon.rotate_rules_left(rules)
+	end
+	return rules
+end
+
+
 local function starts_with(str, start)
    return str:sub(1, #start) == start
 end
@@ -49,13 +71,13 @@ local function activate_palm_scanner(pos, node, player)
 
 		minetest.chat_send_player(name, "Access granted !")
     minetest.sound_play("access_cards_granted", {max_hear_distance = 8, pos = pos, gain = 1.0})
-		mesecon.receptor_on(pos)
+    mesecon.receptor_on(pos, get_switch_rules(node.param2))
 
     -- reset state
     minetest.after(2, function()
       node.name = "access_cards:palm_scanner_off"
       minetest.swap_node(pos, node)
-      mesecon.receptor_off(pos)
+      mesecon.receptor_off(pos, get_switch_rules(node.param2))
     end)
 
 	end
